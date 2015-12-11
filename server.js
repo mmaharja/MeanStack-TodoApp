@@ -33,8 +33,8 @@ app.get('/myTodos', function (req, res) {
 //get todo by id
 app.get('/myToDos/:id', function (req, res) {
     var id=req.params.id;
-    console.log(id);
-    db.toDos.findOne({_id: mongojs.ObjectId(id)}, function(err, doc){
+    console.log('find by id' + id);
+    db.toDos.findOne({_id: db.ObjectId(id)}, function(err, doc){
         console.log(err);
         res.json(doc);
     });
@@ -67,15 +67,10 @@ app.put('/myTodos', function (req, res) {
     console.log(item);
     db.toDos.findAndModify({
         query: {_id: db.ObjectId(item._id)},
-        update: {$set:
-        {isCompleted: item.isCompleted,
-         taskDescription: item.taskDescription,
-            dueDate: item.dueDate
-        }
-        },
+        update: {$set: {isCompleted: item.isCompleted, dueDate: item.dueDate, taskDescription: item.taskDescription}},
         new: true
     }, function (err, todo) {
-        var taskDesc = todo.taskDescription;
+        var taskDesc =item.taskDescription;
         var result = createResult(err,"failed to update task '" +taskDesc + "'", "'"+ taskDesc +"' updated", null);
         console.log(result);
         res.json(result);

@@ -3,9 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>MeanToDo</title>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.css">
+
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src=//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.js"></script>
+
 </head>
 <body>
 <div class="navbar navbar-inverse">
@@ -17,7 +25,7 @@
 </div>
 <div class="container" ng-app="ToDoApp" ng-controller="ToDoController">
     <div class="row">
-        <div class="col-md-6 col-sm-10 col-xs-12 col-md-offset-3 col-sm-offset-1">
+        <div class="col-md-8 col-sm-10 col-xs-12 col-md-offset-2 col-sm-offset-1">
             <div class="panel panel-info">
                 <div class="panel-heading">
                     My MeanToDos
@@ -30,8 +38,8 @@
                             <thead>
                             <tr>
                                 <th class="col-md-6 col-sm-6 col-xs-6">Task</th>
-                                <th class="col-md-4 col-sm-6 col-xs-4">Due Date</th>
-                                <th class="col-md-2 col-sm-6 col-xs-2">Actions</th>
+                                <th class="col-md-3 col-sm-6 col-xs-4">Due Date</th>
+                                <th class="col-md-3 col-sm-6 col-xs-2">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -52,6 +60,10 @@
                                     <a class="btn">
                             <span ng-click="deleteToDo(item)" class="glyphicon glyphicon-trash"
                                   aria-hidden="true"></span>
+                                </a>
+                                    <a class="btn">
+                            <span ng-click="edit(item)" class="glyphicon glyphicon-edit"
+                                  aria-hidden="true"></span>
                                     </a>
                                 </td>
                             </tr>
@@ -71,9 +83,12 @@
 
                                 <div class="form-group">
                                     <label class="sr-only" for="dueDate">Due</label>
-                                    <input type="date" name="dueDate" id="dueDate" ng-model="myTodo.dueDate"
-                                           class="form-control"
-                                           placeholder="Due Date" required>
+                                    <!--<input type="date" name="dueDate" id="dueDate" ng-model="myTodo.dueDate"-->
+                                           <!--value ={{myToDo.dueDate}}-->
+                                           <!--class="form-control"-->
+                                           <!--placeholder="Due Date" required>-->
+                                    <md-datepicker name="dueDate" md-placeholder="Due Date" ng-model="myTodo.dueDate" ng-required="true">{{myToDo.dueDate |limitTo : 10}}</md-datepicker>
+
                                 </div>
                                 <button type="submit" class="btn btn-success">OK</button>
                                 <button type="button" class="btn btn-danger" ng-click="resetForm(frmNewTask)">Reset</button>

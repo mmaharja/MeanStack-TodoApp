@@ -30,6 +30,16 @@ app.get('/myTodos', function (req, res) {
         }
     });
 });
+//get todo by id
+app.get('/myToDos/:id', function (req, res) {
+    var id=req.params.id;
+    console.log(id);
+    db.toDos.findOne({_id: mongojs.ObjectId(id)}, function(err, doc){
+        console.log(err);
+        res.json(doc);
+    });
+});
+
 //add new todo
 app.post('/myTodos', function (req, res) {
     console.log(req.body);

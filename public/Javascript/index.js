@@ -1,10 +1,10 @@
 /**
  * Created by Maharjan on 12/9/2015.
  */
-var app = angular.module("ToDoApp", []);
-app.controller("ToDoController", function ($scope, $http) {
+var app = angular.module("ToDoApp", ['ngMaterial']);
+app.controller("ToDoController", function ($scope, $http, $filter) {
     $scope.myToDos = [];
-    $scope.today = new Date();
+    $scope.myTodo = {taskDescription: 'hello',dueDate: new Date()}
 
     var url = "/MyToDos";
 
@@ -37,6 +37,15 @@ app.controller("ToDoController", function ($scope, $http) {
                 handleResponse(res);
             })
             .error(handleError);
+    };
+
+    $scope.edit = function(item){
+        $http.get(url+'/'+item._id).
+            success(function(res){
+            $scope.myTodo = {
+              taskDescription: res.taskDescription
+            };
+        });
     };
 
     $scope.updateStatus = function (item) {

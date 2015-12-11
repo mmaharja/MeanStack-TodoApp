@@ -1,0 +1,15 @@
+{
+  "name": "MyTodoApp",
+  "version": "1.0.0",
+  "private": true,
+  "author": "Michael Maharjan",
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "express"    : "~4.13.1",
+    "mongojs": "^2.0.0",
+    "morgan": "~1.6.1",
+    "body-parser": "~1.13.2"
+  }
+}

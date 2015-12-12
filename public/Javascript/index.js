@@ -4,8 +4,8 @@
 var app = angular.module("ToDoApp", ['ngMaterial']);
 app.controller("ToDoController", function ($scope, $http, $filter) {
     $scope.myToDos = [];
-    $scope.myTodo = {taskDescription: 'hello',dueDate: new Date()}
-
+    $scope.add = true;
+$scope.addOrUpdate = "Add a new toDo"
     var url = "/MyToDos";
 
     $http.get(url).success(function (response) {
@@ -42,13 +42,14 @@ app.controller("ToDoController", function ($scope, $http, $filter) {
     $scope.edit = function(item){
         $http.get(url+'/'+item._id).
             success(function(res){
-            $scope.myTodo = {
-              taskDescription: res.taskDescription
-            };
+                res.dueDate = new Date(res.dueDate);
+                $scope.myTodo = res;
+                $scope.add=false;
+
         });
     };
 
-    $scope.updateStatus = function (item) {
+    $scope.update = function (item) {
         $http.put(url, item)
             .success(function (res) {
                 handleResponse(res);
@@ -60,6 +61,7 @@ app.controller("ToDoController", function ($scope, $http, $filter) {
         form.$setPristine();
         form.$setUntouched();
         $scope.myTodo = {};
+        $scope.add=true;
     };
 
     function handleResponse(res) {

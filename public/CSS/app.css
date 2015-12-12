@@ -21,3 +21,11 @@ input, button, div, .navbar, select {
     margin-right: 5px;
 
 }
+
+.md-datepicker-button {
+    display: none;
+}
+
+md-input-container.md-icon-float>input, md-input-container.md-icon-float>textarea{
+    padding-top: 10px;
+}

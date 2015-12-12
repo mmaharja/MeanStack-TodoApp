@@ -3,16 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>MeanToDo</title>
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.css">
+    <link rel="stylesheet"
+          href="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.css">
 
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <script src=//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.min.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.js"></script>
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
 
 </head>
 <body>
@@ -34,7 +42,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <h3 ng-show="myToDos.length==0" class="text-info">Add a Task to get started!</h3>
 
-                        <table id="todoTable" class="table table-hover table-stripped">
+                        <table id="todoTable" class="table table-hover table-stripped" ng-show="myToDos.length>0">
                             <thead>
                             <tr>
                                 <th class="col-md-6 col-sm-6 col-xs-6">Task</th>
@@ -43,7 +51,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="item in myToDos | orderBy : 'dueDate':true" ng-show="myToDos.length>0"
+                            <tr ng-repeat="item in myToDos | orderBy : 'dueDate':true"
                                 ng-class="{'bg-success':item.isCompleted}">
                                 <td>
                                     <span hidden="hidden">{{item._id}}</span>
@@ -51,16 +59,16 @@
                                     <div class="checkbox">
                                         <label>
                                             <input type="checkbox" ng-model="item.isCompleted"
-                                                   ng-click="updateStatus(item)">{{item.taskDescription}}
+                                                   ng-click="update(item)">{{item.taskDescription}}
                                         </label>
                                     </div>
                                 </td>
-                                <td ><span>{{item.dueDate |date :'MMM d, yyyy'}}</span></td>
+                                <td><span>{{item.dueDate |date :'MMM d, yyyy'}}</span></td>
                                 <td>
                                     <a class="btn">
                             <span ng-click="deleteToDo(item)" class="glyphicon glyphicon-trash"
                                   aria-hidden="true"></span>
-                                </a>
+                                    </a>
                                     <a class="btn">
                             <span ng-click="edit(item)" class="glyphicon glyphicon-edit"
                                   aria-hidden="true"></span>
@@ -70,28 +78,39 @@
                             </tbody>
                         </table>
                         <hr>
-                        <div class="">
-                            <form name="frmNewTask" class="form-inline" novalidate id="frmNewTask"
+
+                        <div>
+                            <form name="frmNewTask" novalidate id="frmNewTask"
                                   ng-submit="frmNewTask.$valid && addNewTask(frmNewTask) ">
-                                <div class="form-group ">
-                                    <label class="sr-only" for="taskDescription">Task</label>
-                                    <input type="text" name="taskDescription" id="taskDescription"
-                                           ng-model="myTodo.taskDescription"
-                                           class="form-control"
-                                           placeholder="New Task" required>
+                                <span hidden ng-model="myTodo._id"></span>
+
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <md-input-container>
+                                            <input type="text" name="taskDescription" id="taskDescription"
+                                                   ng-model="myTodo.taskDescription"
+                                                   class="form-control"
+                                                   placeholder="New Task" required>
+                                        </md-input-container>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 col-xs-4">
+                                        <md-datepicker id="dueDate" name="dueDate" md-placeholder="Due Date"
+                                                       ng-model="myTodo.dueDate" ng-required="true">{{myToDo.dueDate
+                                            |limitTo : 10}}
+                                        </md-datepicker>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 col-xs-2">
+                                        <button type="submit" ng-show="add" class="btn btn-success">Add</button>
+                                        <button type="button" ng-hide="add" class="btn btn-primary"
+                                                ng-click="update(myTodo)">Update
+                                        </button>
+                                        <button type="button" class="btn btn-danger" ng-click="resetForm(frmNewTask)">
+                                            Reset
+                                        </button>
+                                    </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label class="sr-only" for="dueDate">Due</label>
-                                    <!--<input type="date" name="dueDate" id="dueDate" ng-model="myTodo.dueDate"-->
-                                           <!--value ={{myToDo.dueDate}}-->
-                                           <!--class="form-control"-->
-                                           <!--placeholder="Due Date" required>-->
-                                    <md-datepicker name="dueDate" md-placeholder="Due Date" ng-model="myTodo.dueDate" ng-required="true">{{myToDo.dueDate |limitTo : 10}}</md-datepicker>
 
-                                </div>
-                                <button type="submit" class="btn btn-success">OK</button>
-                                <button type="button" class="btn btn-danger" ng-click="resetForm(frmNewTask)">Reset</button>
                             </form>
                         </div>
 
@@ -99,6 +118,7 @@
                 </div>
 
             </div>
+
             <div class="alert alert-danger" ng-show="frmNewTask.$submitted && frmNewTask.$invalid">
                 <div>
                     <ul ng-show="frmNewTask.$submitted || frmNewTask.taskDescription.$touched || frmNewTask.dueDate.$touched">
@@ -113,6 +133,9 @@
         </div>
     </div>
 </div>
+<!-- Button trigger modal -->
+
+<!-- Modal -->
 
 <link rel="stylesheet" type="text/css" href="/CSS/app.css">
 <script src="/Javascript/index.js"></script>
